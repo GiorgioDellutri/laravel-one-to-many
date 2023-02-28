@@ -49,7 +49,6 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate($this->validationRules);
-        dd($data);
         $data['author'] = Auth::user()->name;
         $data['slug'] = Str::slug($data['title']);
         $newPost = new Post();
@@ -67,6 +66,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        $post = Post::with('type')->find($post->id);
         return view('admin.post.show', compact('post'));
     }
 
